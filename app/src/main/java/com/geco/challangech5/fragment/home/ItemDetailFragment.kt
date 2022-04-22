@@ -6,16 +6,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.geco.challangech5.R
+import com.geco.challangech5.databinding.FragmentHomeBinding
+import com.geco.challangech5.databinding.FragmentItemDetailBinding
 
 
 class ItemDetailFragment : Fragment() {
+    private var _binding: FragmentItemDetailBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_item_detail, container, false)
+        _binding = FragmentItemDetailBinding.inflate(inflater,container,false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
     }
 
 }

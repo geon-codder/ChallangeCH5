@@ -1,4 +1,4 @@
-package com.geco.challangech5
+package com.geco.challangech5.fragment.regist
 
 import android.content.Context
 import android.content.SharedPreferences
