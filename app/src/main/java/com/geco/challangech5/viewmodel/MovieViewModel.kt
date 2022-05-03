@@ -1,40 +1,40 @@
 package com.geco.challangech5.viewmodel
 
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.geco.challangech5.model.Result
+import com.geco.challangech5.model.Movie
+import com.geco.challangech5.model.MovieResponse
 import com.geco.challangech5.network.ApiClient
+import com.geco.challangech5.network.ApiService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class MovieViewModel : ViewModel() {
-    val allMovie = MutableLiveData<List<Result>>()
+//    var liveDataFilm : MutableLiveData<MovieResponse?> = MutableLiveData()
 
-    fun getMovie(apiKey: String, language: String, pageNumber: Int): MutableLiveData<List<Result>> {
-        getDataMovie(apiKey, language, pageNumber)
-        return allMovie
+    fun getMovieData(callback: (List<Movie>) -> Unit) {
+        ApiClient.instance.getMovie()
+            .enqueue(object: Callback<MovieResponse> {
+            override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
+            }
+            override fun onResponse(
+                call: Call<MovieResponse>,
+                response: Response<MovieResponse>) {
+                return when {
+                    response.isSuccessful -> {
+                        callback(response.body()!!.movies)
+                    }
+                    else -> {}
+                }
+
+            }
+        })
     }
 
-    fun getDataMovie(apiKey: String, language: String, pageNumber: Int){
-        ApiClient.instance.getPopularMovies(apiKey, language, pageNumber)
-            .enqueue(object: Callback<List<Result>> {
-                override fun onResponse(
-                    call: Call<List<Result>>,
-                    response: Response<List<Result>>
-                ) {
-                    val body = response.body()
-                    val code = response.code()
-                    if(code == 200){
-                        allMovie.postValue(body!!)
-                    }else {
-
-                    }
-                }
-
-                override fun onFailure(call: Call<List<Result>>, t: Throwable) {
-                }
-            })
+    override fun onCleared() {
+        super.onCleared()
     }
 
 
