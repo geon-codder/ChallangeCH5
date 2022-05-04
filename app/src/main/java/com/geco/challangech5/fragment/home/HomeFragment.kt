@@ -3,20 +3,19 @@ package com.geco.challangech5.fragment.home
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.geco.challangech5.API_KEY.Companion.apiKey
 import com.geco.challangech5.HomeAdapter
 import com.geco.challangech5.R
 import com.geco.challangech5.User
 import com.geco.challangech5.databinding.FragmentHomeBinding
+import com.geco.challangech5.model.Movie
 import com.geco.challangech5.viewmodel.MovieViewModel
 
 
@@ -55,11 +54,23 @@ class HomeFragment : Fragment() {
         binding.recyclerView.setHasFixedSize(true)
 
         viewModel.getMovieData {
-            binding.recyclerView.adapter = HomeAdapter(it)
+            binding.recyclerView.adapter = HomeAdapter(it,object: HomeAdapter.OnClickListener{
+                override fun onClickItem(data: Movie){
+                    val itemDetailFragment = ItemDetailFragment()
+                    val manager: FragmentManager? = fragmentManager
+                    val bundle = Bundle()
+                    bundle.putString("title", data.title)
+                    bundle.putString("release", data.release)
+                    bundle.putString("poster", data.poster)
+                    bundle.putString("overview", data.overview)
+                    itemDetailFragment.arguments = bundle
+
+                    manager?.beginTransaction()?.replace(R.id.navContainer, itemDetailFragment)
+                        ?.addToBackStack(null)?.commit()
+                }
+            })
             binding.progressBar.visibility = View.GONE
         }
     }
-
-
 
 }

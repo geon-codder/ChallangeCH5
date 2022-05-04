@@ -12,7 +12,6 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MovieViewModel : ViewModel() {
-//    var liveDataFilm : MutableLiveData<MovieResponse?> = MutableLiveData()
 
     fun getMovieData(callback: (List<Movie>) -> Unit) {
         ApiClient.instance.getMovie()

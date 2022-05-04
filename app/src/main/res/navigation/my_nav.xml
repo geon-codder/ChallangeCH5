@@ -42,7 +42,11 @@
         android:id="@+id/itemDetailFragment"
         android:name="com.geco.challangech5.fragment.home.ItemDetailFragment"
         android:label="fragment_item_detail"
-        tools:layout="@layout/fragment_item_detail" />
+        tools:layout="@layout/fragment_item_detail" >
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/updateProfilFragment"
         android:name="com.geco.challangech5.fragment.home.UpdateProfilFragment"
