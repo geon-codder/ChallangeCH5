@@ -1,6 +1,7 @@
 package com.geco.challangech5.fragment.home
 
 import android.content.Context
+import android.content.Intent.getIntent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,9 +12,12 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.Room
 import com.geco.challangech5.HomeAdapter
 import com.geco.challangech5.R
-import com.geco.challangech5.User
+import com.geco.challangech5.database.User
+import com.geco.challangech5.database.UserDao
+import com.geco.challangech5.database.UserDatabase
 import com.geco.challangech5.databinding.FragmentHomeBinding
 import com.geco.challangech5.model.Movie
 import com.geco.challangech5.viewmodel.MovieViewModel
@@ -22,6 +26,8 @@ import com.geco.challangech5.viewmodel.MovieViewModel
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+    private var user: User? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +44,17 @@ class HomeFragment : Fragment() {
         val sharedPreferences: SharedPreferences =
             requireActivity().getSharedPreferences("SP_INFO", Context.MODE_PRIVATE)
 
-        val username = sharedPreferences.getString("user", "defaultUser")
+//        val username = sharedPreferences.getString("user", "defaultUser")
+//        val db: UserDao
+//        val dataBase: UserDatabase
+//
+//        dataBase = Room.databaseBuilder(requireContext(), UserDatabase::class.java, "User.db")
+//            .allowMainThreadQueries()
+//            .build()
+//        db = dataBase.userDao()
+//        user = db.getUser()
+        val username = user?.userName
+
         binding.tvWelcome.text = "Selamat Datang, $username"
 
 

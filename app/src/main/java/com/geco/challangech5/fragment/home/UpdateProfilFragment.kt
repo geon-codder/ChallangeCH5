@@ -8,14 +8,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import androidx.room.Room
 import com.geco.challangech5.R
-import com.geco.challangech5.User
-import com.geco.challangech5.databinding.FragmentHomeBinding
+import com.geco.challangech5.database.User
+import com.geco.challangech5.database.UserDao
+import com.geco.challangech5.database.UserDatabase
 import com.geco.challangech5.databinding.FragmentUpdateProfilBinding
 
 class UpdateProfilFragment : Fragment() {
     private var _binding: FragmentUpdateProfilBinding? = null
     private val binding get() = _binding!!
+    private var userDao: UserDao? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,14 +32,18 @@ class UpdateProfilFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        userDao = Room.databaseBuilder(requireContext(), UserDatabase::class.java, "User.db")
+            .allowMainThreadQueries()
+            .build().userDao()
+
         binding.btnUpdate.setOnClickListener {
             val userName = binding.etUsernameUpdate.text.toString()
             val fulname = binding.etNamaLengkapUpdate.text.toString()
             val tglLahir = binding.etTanggalLahirUpdate.text.toString()
             val address = binding.etAlamatUpdate.text.toString()
-            val user = User("$userName","$fulname","$tglLahir","$address")
-
-            findNavController().previousBackStackEntry?.savedStateHandle?.set("user", user)
+            val user = User(null,"$userName","","$fulname","$tglLahir","$address")
+            userDao!!.update(user)
+//            findNavController().previousBackStackEntry?.savedStateHandle?.set("user", userName)
             findNavController().navigateUp()
         }
 
