@@ -26,7 +26,7 @@ import com.geco.challangech5.viewmodel.MovieViewModel
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private var user: User? = null
+//    private var user: User? = null
 
 
     override fun onCreateView(
@@ -44,7 +44,7 @@ class HomeFragment : Fragment() {
         val sharedPreferences: SharedPreferences =
             requireActivity().getSharedPreferences("SP_INFO", Context.MODE_PRIVATE)
 
-//        val username = sharedPreferences.getString("user", "defaultUser")
+        val username = sharedPreferences.getString("username","")
 //        val db: UserDao
 //        val dataBase: UserDatabase
 //
@@ -53,18 +53,19 @@ class HomeFragment : Fragment() {
 //            .build()
 //        db = dataBase.userDao()
 //        user = db.getUser()
-        val username = user?.userName
-
+//        val username = user?.userName
+//        val username = HomeFragmentArgs.fromBundle(arguments as Bundle).name
         binding.tvWelcome.text = "Selamat Datang, $username"
 
 
         binding.btnProfil.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_updateProfilFragment)
+            val actionToUpdateProfilFragment = HomeFragmentDirections.actionHomeFragmentToUpdateProfilFragment()
+            findNavController().navigate(actionToUpdateProfilFragment)
         }
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<User>("user")
-            ?.observe(viewLifecycleOwner) { (userName) ->
-                binding.tvWelcome.text = "Selamat Datang, $userName"
-            }
+//        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<User>("user")
+//            ?.observe(viewLifecycleOwner) { (userName) ->
+//                binding.tvWelcome.text = "Selamat Datang, $userName"
+//            }
         val viewModel : MovieViewModel by viewModels()
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.setHasFixedSize(true)

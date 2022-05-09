@@ -14,7 +14,7 @@ import com.geco.challangech5.R
 import com.geco.challangech5.database.UserDao
 import com.geco.challangech5.database.UserDatabase
 import com.geco.challangech5.databinding.FragmentLoginBinding
-import kotlinx.android.synthetic.main.fragment_login.*
+import com.geco.challangech5.fragment.home.HomeFragmentDirections
 
 
 class LoginFragment : Fragment() {
@@ -50,7 +50,7 @@ class LoginFragment : Fragment() {
             .build()
         db = dataBase.userDao()
 
-        btnLogin.setOnClickListener {
+        binding.btnLogin.setOnClickListener {
 //            val usernameLogin = binding.etUsernameLogin.text.toString()
 //            val passwordLogin = binding.etPassLogin.text.toString()
             val username: String = binding.etUsernameLogin.text.toString().trim()
@@ -60,20 +60,25 @@ class LoginFragment : Fragment() {
             if(username.isNullOrEmpty() || password.isNullOrEmpty()){
                 Toast.makeText(activity,"Mohon Masukkan Email atau Password", Toast.LENGTH_SHORT).show()
             }else{
+                val editor: SharedPreferences.Editor = sharedPreferences.edit()
                 val user = db.getUser(username, password)
-                if (user != null) {
-                    val editor: SharedPreferences.Editor = sharedPreferences.edit()
+
+                    if (user != null) {
                     editor.putInt("login", 0)
                     editor.apply()
-                    view.findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                        val actionToHomeFragment = LoginFragmentDirections.actionLoginFragmentToHomeFragment("malik2")
+                        actionToHomeFragment.name = "malik"
+                    view.findNavController().navigate(actionToHomeFragment)
                 }else{
                     Toast.makeText(activity, "Data tidak ditemukan",Toast.LENGTH_SHORT).show()
                 }
+
             }
 
         }
-        tvRegist.setOnClickListener{
-            it.findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+        binding.tvRegist.setOnClickListener{
+            val actionToRegisterFragment = LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
+            it.findNavController().navigate(actionToRegisterFragment)
         }
     }
 
