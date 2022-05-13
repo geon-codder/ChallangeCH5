@@ -43,14 +43,25 @@
 
     <TextView
         android:id="@+id/detail_item_overview"
-        android:layout_width="341dp"
-        android:layout_height="263dp"
+        android:layout_width="334dp"
+        android:layout_height="159dp"
         android:layout_marginTop="32dp"
         android:text="Overview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/detail_item_releaseDate" />
+
+    <Button
+        android:id="@+id/btnDetailToHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="Back to home"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detail_item_overview" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

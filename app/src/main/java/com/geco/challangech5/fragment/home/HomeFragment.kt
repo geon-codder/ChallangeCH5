@@ -23,7 +23,7 @@ import com.geco.challangech5.viewmodel.MovieViewModel
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: UserViewModel
+    private lateinit var userViewModel: UserViewModel
     private lateinit var pref: CounterDataStoreManager
     private lateinit var userRepository: UserRepository
 
@@ -42,7 +42,7 @@ class HomeFragment : Fragment() {
 
         pref = CounterDataStoreManager(requireActivity())
         userRepository = UserRepository(pref)
-        viewModel = ViewModelProvider(this, ViewModelFactory(userRepository))[UserViewModel::class.java]
+        userViewModel = ViewModelProvider(this, ViewModelFactory(userRepository))[UserViewModel::class.java]
 
 
         setObserve()
@@ -77,7 +77,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setObserve(){
-        viewModel.apply {
+        userViewModel.apply {
             getUsername().observe(requireActivity()){
                 binding.tvWelcome.text = "Selamat Datang $it"
             }

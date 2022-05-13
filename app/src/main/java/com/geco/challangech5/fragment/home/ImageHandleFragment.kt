@@ -71,8 +71,7 @@ class ImageHandleFragment : Fragment() {
             val editor: SharedPreferences.Editor = sharedPreferences.edit()
             editor.putString("imageBitmap", image)
             editor.apply()
-//            API_KEY.image = image
-            Toast.makeText(activity, "image = ${image}", Toast.LENGTH_LONG).show()
+            Toast.makeText(activity, "Foto berhasil ditambahkan", Toast.LENGTH_LONG).show()
             val actionToUpdateProfilFragment = ImageHandleFragmentDirections.actionImageHandleFragmentToUpdateProfilFragment()
             view.findNavController().navigate(actionToUpdateProfilFragment)
         }

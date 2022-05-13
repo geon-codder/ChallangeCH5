@@ -62,11 +62,22 @@ class LoginFragment : Fragment() {
             if(username.isEmpty() || password.isEmpty()){
                 Toast.makeText(activity,"Mohon Masukkan Email atau Password", Toast.LENGTH_SHORT).show()
             }else{
-                loginAuth(username,password)
-//                setLogin()
-                val editor: SharedPreferences.Editor = sharedPreferences.edit()
-                editor.putInt("login", 1)
-                editor.apply()
+                viewModel.getUsername().observe(requireActivity()){uname ->
+                    prefUsername = uname.toString()
+                    viewModel.getPassword().observe(requireActivity()){upass->
+                        prefPass = upass.toString()
+                        if (prefUsername == username && prefPass == password){
+                            val editor: SharedPreferences.Editor = sharedPreferences.edit()
+                            editor.putInt("login", 1)
+                            editor.apply()
+                            Toast.makeText(activity, "Login Berhasil", Toast.LENGTH_SHORT).show()
+                            val actionToHomeFragment = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
+                            findNavController().navigate(actionToHomeFragment)
+                        }else{
+                            Toast.makeText(activity, "Login Gagal, akun tidak ditemukan", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
             }
         }
 
@@ -75,23 +86,6 @@ class LoginFragment : Fragment() {
             view.findNavController().navigate(actionToRegisterFragment)
         }
     }
-
-    private fun loginAuth(username: String, password: String){
-        viewModel.getUsername().observe(requireActivity()){uname ->
-            prefUsername = uname.toString()
-            viewModel.getPassword().observe(requireActivity()){upass->
-                prefPass = upass.toString()
-                if (prefUsername == username && prefPass == password){
-                    Toast.makeText(activity, "Login Berhasil", Toast.LENGTH_SHORT).show()
-                    val actionToHomeFragment = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
-                    findNavController().navigate(actionToHomeFragment)
-                }else{
-                    Toast.makeText(activity, "Login Gagal, akun tidak ditemukan", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-    }
-
 
     override fun onDestroy(){
         super.onDestroy()

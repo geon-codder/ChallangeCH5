@@ -13,11 +13,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import com.geco.challangech5.API_KEY
 import com.geco.challangech5.Converter
 import com.geco.challangech5.databinding.FragmentUpdateProfilBinding
 import com.geco.challangech5.datastore.CounterDataStoreManager
-import com.geco.challangech5.datastore.User
 import com.geco.challangech5.datastore.UserViewModel
 import com.geco.challangech5.datastore.ViewModelFactory
 import com.geco.challangech5.repository.UserRepository
@@ -52,12 +50,16 @@ class UpdateProfilFragment : Fragment() {
         val sharedPreferences : SharedPreferences =
             requireActivity().getSharedPreferences("SP_INFO", Context.MODE_PRIVATE)
         val image = sharedPreferences.getString("imageBitmap", "default")
+        if (image == "default"){
+            Toast.makeText(activity,"Foto belum di upload", Toast.LENGTH_SHORT).show()
+        }else {
 
-//        binding.imageView.setImageBitmap(bitmap)
-//        if (image != null) {
-//            val bitmap: Bitmap = converter.toBitmap(image)
-//            binding.imageView.setImageBitmap(bitmap)
-//        }
+            converter = Converter()
+            val bitmap = converter.toBitmap(image)
+            binding.imageView.setImageBitmap(bitmap)
+            Toast.makeText(activity,"Foto berhasil Ditampilkan", Toast.LENGTH_SHORT).show()
+        }
+
 
         binding.btnUpdate.setOnClickListener {
             val userName = binding.etUsernameUpdate.text.toString()
@@ -77,38 +79,9 @@ class UpdateProfilFragment : Fragment() {
             view.findNavController().navigate(actionToLoginFragment)
         }
         binding.imageView.setOnClickListener{
-//            val actionToImageHandle = UpdateProfilFragmentDirections.actionUpdateProfilFragmentToImageHandle()
-//            view.findNavController().navigate(actionToImageHandle)
             val actionToImageHandleFragment = UpdateProfilFragmentDirections.actionUpdateProfilFragmentToImageHandleFragment()
             view.findNavController().navigate(actionToImageHandleFragment)
         }
-
-//        setupImage(image)
-//        binding.imageView.setImageBitmap(bitmap)
-
-        binding.btnShow.setOnClickListener {
-
-//            val image = API_KEY.image
-            if (image == "default"){
-                Toast.makeText(activity,"string: $image", Toast.LENGTH_SHORT).show()
-            }else {
-//                val bitmap = decodeBase64(image)
-                converter = Converter()
-                val bitmap = converter.toBitmap(image)
-                binding.imageView.setImageBitmap(bitmap)
-                Toast.makeText(activity,"berhasil", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-//    private fun setupImage(image: String?){
-//        converter = Converter()
-//        bitmap = converter.toBitmap(image)
-//    }
-
-    private fun decodeBase64(input: String?): Bitmap {
-        val decodeByte = Base64.decode(input, 0)
-        return BitmapFactory.decodeByteArray(decodeByte, 0, decodeByte.size)
     }
 
     override fun onDestroy(){

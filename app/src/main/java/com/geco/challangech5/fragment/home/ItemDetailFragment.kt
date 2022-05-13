@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.geco.challangech5.databinding.FragmentItemDetailBinding
@@ -34,7 +35,11 @@ class ItemDetailFragment : Fragment() {
         Glide.with(this)
             .load(IMAGE_BASE + requireArguments().getString("poster"))
             .into(binding.detailItemMovieImage)
-        findNavController().navigateUp()
+        binding.btnDetailToHome.setOnClickListener {
+            val actionToHomeFragment = ItemDetailFragmentDirections.actionItemDetailFragmentToHomeFragment()
+            view.findNavController().navigate(actionToHomeFragment)
+        }
+
     }
 
 }
