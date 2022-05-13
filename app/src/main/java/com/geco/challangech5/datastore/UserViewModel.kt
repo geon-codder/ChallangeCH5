@@ -8,18 +8,20 @@ class UserViewModel(private val pref: CounterDataStoreManager) : ViewModel() {
     fun getUsername(): LiveData<Any>{
         return pref.getUsername().asLiveData()
     }
+
     fun getPassword(): LiveData<Any>{
         return pref.getPassword().asLiveData()
     }
 
-    fun getLoginStatus(): LiveData<Int>{
-        return pref.getLoginStatus().asLiveData()
-    }
-
-
-    fun saveLoginStats(value: Int) {
+    fun setUsername(value: String){
         viewModelScope.launch {
-            pref.setLoginStatus(value)
+            pref.setUsername(value)
         }
     }
+    fun setPassword(value: String){
+        viewModelScope.launch {
+            pref.setPassword(value)
+        }
+    }
+
 }

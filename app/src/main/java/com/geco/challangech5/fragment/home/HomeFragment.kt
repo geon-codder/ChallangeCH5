@@ -1,8 +1,5 @@
 package com.geco.challangech5.fragment.home
 
-import android.content.Context
-import android.content.Intent.getIntent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,23 +7,23 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.room.Room
 import com.geco.challangech5.HomeAdapter
 import com.geco.challangech5.R
-import com.geco.challangech5.database.User
-import com.geco.challangech5.database.UserDao
-import com.geco.challangech5.database.UserDatabase
 import com.geco.challangech5.databinding.FragmentHomeBinding
+import com.geco.challangech5.datastore.CounterDataStoreManager
+import com.geco.challangech5.datastore.UserViewModel
+import com.geco.challangech5.datastore.ViewModelFactory
 import com.geco.challangech5.model.Movie
 import com.geco.challangech5.viewmodel.MovieViewModel
-
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-//    private var user: User? = null
+    private lateinit var viewModel: UserViewModel
+    private lateinit var pref: CounterDataStoreManager
 
 
     override fun onCreateView(
@@ -41,31 +38,17 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val sharedPreferences: SharedPreferences =
-            requireActivity().getSharedPreferences("SP_INFO", Context.MODE_PRIVATE)
+        pref = CounterDataStoreManager(requireActivity())
+        viewModel = ViewModelProvider(this, ViewModelFactory(pref))[UserViewModel::class.java]
 
-        val username = sharedPreferences.getString("username","")
-//        val db: UserDao
-//        val dataBase: UserDatabase
-//
-//        dataBase = Room.databaseBuilder(requireContext(), UserDatabase::class.java, "User.db")
-//            .allowMainThreadQueries()
-//            .build()
-//        db = dataBase.userDao()
-//        user = db.getUser()
-//        val username = user?.userName
-//        val username = HomeFragmentArgs.fromBundle(arguments as Bundle).name
-        binding.tvWelcome.text = "Selamat Datang, $username"
 
+        setObserve()
 
         binding.btnProfil.setOnClickListener {
             val actionToUpdateProfilFragment = HomeFragmentDirections.actionHomeFragmentToUpdateProfilFragment()
-            findNavController().navigate(actionToUpdateProfilFragment)
+            view.findNavController().navigate(actionToUpdateProfilFragment)
         }
-//        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<User>("user")
-//            ?.observe(viewLifecycleOwner) { (userName) ->
-//                binding.tvWelcome.text = "Selamat Datang, $userName"
-//            }
+
         val viewModel : MovieViewModel by viewModels()
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.setHasFixedSize(true)
@@ -88,6 +71,19 @@ class HomeFragment : Fragment() {
             })
             binding.progressBar.visibility = View.GONE
         }
+    }
+
+    private fun setObserve(){
+        viewModel.apply {
+            getUsername().observe(requireActivity()){
+                binding.tvWelcome.text = "Selamat Datang $it"
+            }
+        }
+    }
+
+    override fun onDestroy(){
+        super.onDestroy()
+        _binding = null
     }
 
 }

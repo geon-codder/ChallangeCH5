@@ -8,24 +8,32 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import androidx.room.Room
+import androidx.navigation.fragment.findNavController
 import com.geco.challangech5.R
-import com.geco.challangech5.database.UserDao
-import com.geco.challangech5.database.UserDatabase
 import com.geco.challangech5.databinding.FragmentLoginBinding
-import com.geco.challangech5.fragment.home.HomeFragmentDirections
+import com.geco.challangech5.datastore.CounterDataStoreManager
+import com.geco.challangech5.datastore.UserViewModel
+import com.geco.challangech5.datastore.ViewModelFactory
 
 
 class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
+    private lateinit var viewModel: UserViewModel
+    private lateinit var pref: CounterDataStoreManager
+
+    companion object{
+        var prefUsername = "admin"
+        var prefPass = "admin"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentLoginBinding.inflate(inflater,container,false)
         // Inflate the layout for this fragment
         return binding.root
@@ -34,53 +42,53 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        pref = CounterDataStoreManager(requireActivity())
+        viewModel = ViewModelProvider(this, ViewModelFactory(pref))[UserViewModel::class.java]
+
         val sharedPreferences : SharedPreferences =
             requireActivity().getSharedPreferences("SP_INFO", Context.MODE_PRIVATE)
 
-        val loginStatus = sharedPreferences.getInt("login", 1)
-        if (loginStatus == 0){
+        val loginStatus = sharedPreferences.getInt("login", 0)
+        if (loginStatus == 1){
             view.findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
         }
 
-        val db: UserDao
-        val dataBase: UserDatabase
-
-        dataBase = Room.databaseBuilder(requireContext(), UserDatabase::class.java, "User.db")
-            .allowMainThreadQueries()
-            .build()
-        db = dataBase.userDao()
-
-        binding.btnLogin.setOnClickListener {
-//            val usernameLogin = binding.etUsernameLogin.text.toString()
-//            val passwordLogin = binding.etPassLogin.text.toString()
-            val username: String = binding.etUsernameLogin.text.toString().trim()
-            val password: String = binding.etPassLogin.text.toString().trim()
-
-
-            if(username.isNullOrEmpty() || password.isNullOrEmpty()){
+        binding.btnLogin.setOnClickListener{
+            val username = "[${binding.etUsernameLogin.text}]"
+            val password = "[${binding.etPassLogin.text}]"
+            if(username.isEmpty() || password.isEmpty()){
                 Toast.makeText(activity,"Mohon Masukkan Email atau Password", Toast.LENGTH_SHORT).show()
             }else{
+                loginAuth(username,password)
+//                setLogin()
                 val editor: SharedPreferences.Editor = sharedPreferences.edit()
-                val user = db.getUser(username, password)
-
-                    if (user != null) {
-                    editor.putInt("login", 0)
-                    editor.apply()
-                        val actionToHomeFragment = LoginFragmentDirections.actionLoginFragmentToHomeFragment("malik2")
-                        actionToHomeFragment.name = "malik"
-                    view.findNavController().navigate(actionToHomeFragment)
-                }else{
-                    Toast.makeText(activity, "Data tidak ditemukan",Toast.LENGTH_SHORT).show()
-                }
-
+                editor.putInt("login", 1)
+                editor.apply()
             }
-
         }
+
         binding.tvRegist.setOnClickListener{
             val actionToRegisterFragment = LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
-            it.findNavController().navigate(actionToRegisterFragment)
+            view.findNavController().navigate(actionToRegisterFragment)
         }
     }
+
+    private fun loginAuth(username: String, password: String){
+        viewModel.getUsername().observe(requireActivity()){uname ->
+            prefUsername = uname.toString()
+            viewModel.getPassword().observe(requireActivity()){upass->
+                prefPass = upass.toString()
+                if (prefUsername == username && prefPass == password){
+                    Toast.makeText(activity, "Login Berhasil", Toast.LENGTH_SHORT).show()
+                    val actionToHomeFragment = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
+                    findNavController().navigate(actionToHomeFragment)
+                }else{
+                    Toast.makeText(activity, "Login Gagal, akun tidak ditemukan", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
 
     override fun onDestroy(){
         super.onDestroy()

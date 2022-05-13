@@ -20,11 +20,6 @@ class CounterDataStoreManager(private val context: Context) {
             preferences[PASS_KEY] = setOf(pass)
         }
     }
-    suspend fun setLoginStatus(status: Int){
-        context.counterDataStore.edit {preferences ->
-            preferences[LOGINSTATS_KEY] = status
-        }
-    }
 
     fun getUsername(): Flow<Any> {
         return context.counterDataStore.data.map { preferences ->
@@ -34,12 +29,7 @@ class CounterDataStoreManager(private val context: Context) {
     fun getPassword(): Flow<Any> {
         return context.counterDataStore.data.map { preferences ->
             preferences[PASS_KEY] ?: ""
-        }
-    }
-    fun getLoginStatus(): Flow<Int> {
-        return context.counterDataStore.data.map { preferences ->
-            preferences[LOGINSTATS_KEY] ?: 0
-        }
+        } 
     }
 
 
@@ -48,9 +38,6 @@ class CounterDataStoreManager(private val context: Context) {
 
         private val NAME_KEY = stringSetPreferencesKey("name_key")
         private val PASS_KEY = stringSetPreferencesKey("pass_key")
-
-        val LOGINSTATS_KEY = intPreferencesKey("loginStats_key")
-
 
         private val Context.counterDataStore by preferencesDataStore(
             name = DATASTORE_NAME
