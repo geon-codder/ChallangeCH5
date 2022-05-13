@@ -1,27 +1,15 @@
 package com.geco.challangech5.datastore
 
 import androidx.lifecycle.*
+import com.geco.challangech5.repository.UserRepository
 import kotlinx.coroutines.launch
 
-class UserViewModel(private val pref: CounterDataStoreManager) : ViewModel() {
+class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
 
-    fun getUsername(): LiveData<Any>{
-        return pref.getUsername().asLiveData()
-    }
+    fun getUsername() = userRepository.getUsername()
+    fun getPassword() = userRepository.getPassword()
 
-    fun getPassword(): LiveData<Any>{
-        return pref.getPassword().asLiveData()
-    }
-
-    fun setUsername(value: String){
-        viewModelScope.launch {
-            pref.setUsername(value)
-        }
-    }
-    fun setPassword(value: String){
-        viewModelScope.launch {
-            pref.setPassword(value)
-        }
-    }
+    fun setUsername(value: String) = userRepository.setUsername(value)
+    fun setPassword(value: String) = userRepository.setPassword(value)
 
 }

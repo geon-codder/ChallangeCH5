@@ -34,6 +34,7 @@ class ItemDetailFragment : Fragment() {
         Glide.with(this)
             .load(IMAGE_BASE + requireArguments().getString("poster"))
             .into(binding.detailItemMovieImage)
+        findNavController().navigateUp()
     }
 
 }

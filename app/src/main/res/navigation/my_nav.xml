@@ -58,5 +58,25 @@
         <action
             android:id="@+id/action_updateProfilFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_updateProfilFragment_to_imageHandle"
+            app:destination="@id/imageHandle" />
+        <action
+            android:id="@+id/action_updateProfilFragment_to_imageHandleFragment"
+            app:destination="@id/imageHandleFragment" />
+    </fragment>
+    <activity
+        android:id="@+id/imageHandle"
+        android:name="com.geco.challangech5.ImageHandle"
+        android:label="activity_image_handle"
+        tools:layout="@layout/activity_image_handle" />
+    <fragment
+        android:id="@+id/imageHandleFragment"
+        android:name="com.geco.challangech5.fragment.home.ImageHandleFragment"
+        android:label="fragment_image_handle"
+        tools:layout="@layout/fragment_image_handle" >
+        <action
+            android:id="@+id/action_imageHandleFragment_to_updateProfilFragment"
+            app:destination="@id/updateProfilFragment" />
     </fragment>
 </navigation>

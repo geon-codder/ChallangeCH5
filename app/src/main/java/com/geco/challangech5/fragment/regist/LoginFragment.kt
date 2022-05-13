@@ -16,6 +16,7 @@ import com.geco.challangech5.databinding.FragmentLoginBinding
 import com.geco.challangech5.datastore.CounterDataStoreManager
 import com.geco.challangech5.datastore.UserViewModel
 import com.geco.challangech5.datastore.ViewModelFactory
+import com.geco.challangech5.repository.UserRepository
 
 
 class LoginFragment : Fragment() {
@@ -24,6 +25,7 @@ class LoginFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: UserViewModel
     private lateinit var pref: CounterDataStoreManager
+    private lateinit var userRepository: UserRepository
 
     companion object{
         var prefUsername = "admin"
@@ -43,7 +45,8 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         pref = CounterDataStoreManager(requireActivity())
-        viewModel = ViewModelProvider(this, ViewModelFactory(pref))[UserViewModel::class.java]
+        userRepository = UserRepository(pref)
+        viewModel = ViewModelProvider(this, ViewModelFactory(userRepository))[UserViewModel::class.java]
 
         val sharedPreferences : SharedPreferences =
             requireActivity().getSharedPreferences("SP_INFO", Context.MODE_PRIVATE)

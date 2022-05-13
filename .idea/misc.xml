@@ -4,8 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/AndroidStudioProjek/ChallangeCH5/app/src/main/res/layout/activity_detail.xml" value="0.22447916666666667" />
+        <entry key="..\:/AndroidStudioProjek/ChallangeCH5/app/src/main/res/layout/activity_image_handle.xml" value="0.25" />
+        <entry key="..\:/AndroidStudioProjek/ChallangeCH5/app/src/main/res/layout/activity_image_handler.xml" value="0.22447916666666667" />
         <entry key="..\:/AndroidStudioProjek/ChallangeCH5/app/src/main/res/layout/activity_main.xml" value="0.22447916666666667" />
         <entry key="..\:/AndroidStudioProjek/ChallangeCH5/app/src/main/res/layout/fragment_home.xml" value="0.33" />
+        <entry key="..\:/AndroidStudioProjek/ChallangeCH5/app/src/main/res/layout/fragment_image_handle.xml" value="0.22447916666666667" />
         <entry key="..\:/AndroidStudioProjek/ChallangeCH5/app/src/main/res/layout/fragment_item_detail.xml" value="0.22" />
         <entry key="..\:/AndroidStudioProjek/ChallangeCH5/app/src/main/res/layout/fragment_login.xml" value="0.22447916666666667" />
         <entry key="..\:/AndroidStudioProjek/ChallangeCH5/app/src/main/res/layout/fragment_register.xml" value="0.22447916666666667" />

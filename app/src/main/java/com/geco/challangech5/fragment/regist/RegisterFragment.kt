@@ -12,6 +12,7 @@ import com.geco.challangech5.databinding.FragmentRegisterBinding
 import com.geco.challangech5.datastore.CounterDataStoreManager
 import com.geco.challangech5.datastore.UserViewModel
 import com.geco.challangech5.datastore.ViewModelFactory
+import com.geco.challangech5.repository.UserRepository
 
 
 class RegisterFragment : Fragment() {
@@ -20,6 +21,7 @@ class RegisterFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: UserViewModel
     private lateinit var pref: CounterDataStoreManager
+    private lateinit var userRepository: UserRepository
 
 
     override fun onCreateView(
@@ -36,8 +38,8 @@ class RegisterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         pref = CounterDataStoreManager(requireContext())
-        viewModel = ViewModelProvider(this, ViewModelFactory(pref))[UserViewModel::class.java]
-
+        userRepository = UserRepository(pref)
+        viewModel = ViewModelProvider(this, ViewModelFactory(userRepository))[UserViewModel::class.java]
 
         binding.btnRegist.setOnClickListener {
             val username: String = binding.etUsernameRegist.text.toString()
