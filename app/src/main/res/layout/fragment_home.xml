@@ -24,6 +24,7 @@
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="25dp" />
 
+
         <ImageButton
             android:id="@+id/btnProfil"
             android:layout_width="wrap_content"
@@ -58,6 +59,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/tvSwitchMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Tap to Switch mode"
+        app:layout_constraintTop_toBottomOf="@+id/widget_user"
+        tools:layout_editor_absoluteX="256dp"
+        tools:ignore="MissingConstraints" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

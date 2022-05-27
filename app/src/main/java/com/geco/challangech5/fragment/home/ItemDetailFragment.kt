@@ -37,7 +37,8 @@ class ItemDetailFragment : Fragment() {
             .into(binding.detailItemMovieImage)
         binding.btnDetailToHome.setOnClickListener {
             val actionToHomeFragment = ItemDetailFragmentDirections.actionItemDetailFragmentToHomeFragment()
-            view.findNavController().navigate(actionToHomeFragment)
+//            view.findNavController().navigate(actionToHomeFragment)
+            findNavController().navigate(actionToHomeFragment)
         }
 
     }

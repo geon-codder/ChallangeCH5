@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'androidx.navigation.safeargs'
 
 
@@ -16,6 +17,16 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    flavorDimensions 'default'
+    productFlavors {
+        redFlavor {
+            dimension 'default'
+        }
+        blueFlavor {
+            dimension 'default'
+        }
     }
 
     buildTypes {
@@ -93,5 +104,27 @@ dependencies {
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
+    //dagger hilt
+    def hilt_version= "2.42"
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+
+    //Chucker
+    def chucker_version = "3.5.2"
+    debugImplementation "com.github.chuckerteam.chucker:library:$chucker_version"
+    releaseImplementation "com.github.chuckerteam.chucker:library-no-op:$chucker_version"
+
+    //optional
+
+// Required -- JUnit 4 framework
+    testImplementation 'junit:junit:4.+'
+    testImplementation "org.mockito:mockito-core:4.5.1"
+    testImplementation "org.mockito.kotlin:mockito-kotlin:4.0.0"
+    testImplementation "io.mockk:mockk:1.12.0"
+    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
+    testImplementation "com.google.truth:truth:1.0.1"
+    androidTestImplementation "com.google.truth:truth:1.0.1"
+
 
 }

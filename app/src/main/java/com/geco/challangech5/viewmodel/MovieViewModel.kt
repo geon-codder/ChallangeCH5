@@ -13,24 +13,24 @@ import retrofit2.Response
 
 class MovieViewModel : ViewModel() {
 
-    fun getMovieData(callback: (List<Movie>) -> Unit) {
-        ApiClient.instance.getMovie()
-            .enqueue(object: Callback<MovieResponse> {
-            override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
-            }
-            override fun onResponse(
-                call: Call<MovieResponse>,
-                response: Response<MovieResponse>) {
-                return when {
-                    response.isSuccessful -> {
-                        callback(response.body()!!.movies)
-                    }
-                    else -> {}
-                }
-
-            }
-        })
-    }
+//    fun getMovieData(callback: (List<Movie>) -> Unit) {
+//        ApiClient.instance.getMovie()
+//            .enqueue(object: Callback<MovieResponse> {
+//            override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
+//            }
+//            override fun onResponse(
+//                call: Call<MovieResponse>,
+//                response: Response<MovieResponse>) {
+//                return when {
+//                    response.isSuccessful -> {
+//                        callback(response.body()!!.movies)
+//                    }
+//                    else -> {}
+//                }
+//
+//            }
+//        })
+//    }
 
     override fun onCleared() {
         super.onCleared()
